@@ -21,8 +21,6 @@ public class AuthenticationProviderHoras implements AuthenticationProvider {
 	public Authentication authenticate(Authentication auth) throws AuthenticationException {
 		String email = auth.getName();
 		String senha = auth.getCredentials().toString();
-		System.out.println(email);
-		System.out.println(senha);
 		if(usuarioService.logar(email, senha)){
 			Usuario userBanco = usuarioService.buscar(email);
 			return new UsernamePasswordAuthenticationToken(userBanco, senha, userBanco.getAuthorities());

@@ -24,11 +24,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
 		Authentication authentication = null;
-		try{
+		try {
 			authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) request);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			filterChain.doFilter(request, response);
-		}catch (TokenException e) {
+		} catch (TokenException e) {
 			ObjectMapper mapper = new ObjectMapper();
 			String json =  mapper.writeValueAsString(new MensagemRetorno("Token inválido"));
 			HttpServletResponse res = (HttpServletResponse) response;

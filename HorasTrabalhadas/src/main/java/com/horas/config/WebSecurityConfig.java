@@ -22,7 +22,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/usuario/logar").permitAll()
-			.antMatchers(HttpMethod.POST, "/usuario/cadastrar").permitAll()
+			.antMatchers(HttpMethod.GET, "/usuario/listar").permitAll()
+			.antMatchers(HttpMethod.GET, "/usuario/buscar").permitAll()
+			.antMatchers(HttpMethod.GET, "/hora/listar").permitAll()
+			.antMatchers(HttpMethod.GET, "/hora/buscar").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			

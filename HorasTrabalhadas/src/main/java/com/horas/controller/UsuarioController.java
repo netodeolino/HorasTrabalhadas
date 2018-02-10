@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.horas.model.AccountCredentials;
 import com.horas.model.Papel;
 import com.horas.model.Usuario;
 import com.horas.response.AuthToken;
@@ -70,10 +69,10 @@ public class UsuarioController {
 	}
 	
 	@PostMapping(path="/logar")
-	public AuthToken logar(@RequestBody AccountCredentials usuario){
+	public AuthToken logar(@RequestBody Usuario usuario){
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-				usuario.getUsername(), 
-				usuario.getPassword(), 
+				usuario.getUsername(),
+				usuario.getPassword(),
 				Collections.emptyList()
 		));
 		String JWT = Jwts.builder()
