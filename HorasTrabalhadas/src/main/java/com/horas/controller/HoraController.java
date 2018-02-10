@@ -1,5 +1,8 @@
 package com.horas.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.horas.model.Hora;
@@ -30,20 +34,20 @@ public class HoraController {
 	UsuarioService usuarioService;
 	
 	@PostMapping(path="/cadastrar")
-	public String salvar(@RequestBody Hora hora){
+	public String salvar(@RequestBody Hora hora) {
 		Date today = new Date();
 		Usuario usuario = usuarioService.buscar(hora.getUsuario().getId());
 		
 		hora.setUsuario(usuario);
 		hora.setData(today);
-		
+
 		horaService.salvar(hora);
 		return "sucesso";
 	}
 	
 	@Cacheable("horasCache")
 	@GetMapping(path="/listar")
-	public List<Hora> listar(){
+	public List<Hora> listar() {
 		return horaService.listar();
 	}
 	
@@ -64,5 +68,20 @@ public class HoraController {
 	public String remover(Long id) {
 		horaService.excluir(id);
 		return "sucesso";
+	}
+	
+	@Cacheable("horasCache")
+	@GetMapping(path="/listar/periodo")
+	public List<Hora> listarPorPeriodo(
+			@RequestParam(value = "date1") String date1,
+			@RequestParam(value = "date2") String date2,
+			@RequestParam(value = "id") Long id)
+		throws ParseException {
+		
+		DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		Date dateObject1 = sdf.parse(date1);
+		Date dateObject2 = sdf.parse(date2);
+		
+		return horaService.listarPorPeriodo(dateObject1, dateObject2, 2L);
 	}
 }
