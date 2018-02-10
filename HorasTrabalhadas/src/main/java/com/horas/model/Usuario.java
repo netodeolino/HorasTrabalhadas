@@ -1,15 +1,24 @@
 package com.horas.model;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +26,9 @@ public class Usuario {
 	
 	private String email;
 	private String senha;
+	
+	@Enumerated(EnumType.STRING)
+	private Papel papel;
 	
 	@OneToMany
 	private List<Hora> horas;
@@ -45,11 +57,54 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	public Papel getPapel() {
+		return papel;
+	}
+
+	public void setPapel(Papel papel) {
+		this.papel = papel;
+	}
+
 	public List<Hora> getHoras() {
 		return horas;
 	}
 
 	public void setHoras(List<Hora> horas) {
 		this.horas = horas;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Arrays.asList(new PapelSecurity(papel));
+	}
+
+	@Override
+	public String getPassword() {
+		return getSenha();
+	}
+
+	@Override
+	public String getUsername() {
+		return getEmail();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 }

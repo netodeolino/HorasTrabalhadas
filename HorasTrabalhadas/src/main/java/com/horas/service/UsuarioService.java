@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.horas.model.Usuario;
 import com.horas.repository.UsuarioRepository;
+import com.horas.util.Senha;
 
 @Service
 public class UsuarioService {
@@ -22,11 +23,23 @@ public class UsuarioService {
 		return usuarioRepository.findOne(id);
 	}
 	
+	public Usuario buscar(String email) {
+		return usuarioRepository.findByEmail(email);
+	}
+	
 	public void excluir(Long id) {
 		usuarioRepository.delete(id);
 	}
 	
 	public List<Usuario> listar(){
 		return usuarioRepository.findAll();
+	}
+	
+	public boolean logar(String email, String senha){
+		Usuario userBanco = usuarioRepository.findByEmail(email);
+		if (userBanco != null && Senha.verificarSenha(senha, userBanco.getSenha())) {
+			return true;
+		}
+		return false;
 	}
 }
