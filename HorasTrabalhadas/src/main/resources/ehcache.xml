@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://www.ehcache.org/ehcache.xsd"
+         updateCheck="true"
+         monitoring="autodetect"
+         dynamicConfig="true">
+
+    <cache name="usuariosCache"
+           maxElementsInMemory="100"
+           overflowToDisk="false"
+           timeToLiveSeconds="300"> <!-- 5 minutos -->
+    </cache>
+    <cache name="usuarioCache"
+           maxElementsInMemory="100"
+           overflowToDisk="false"
+           timeToLiveSeconds="300"> <!-- 5 minutos -->
+    </cache>
+    <cache name="horasCache"
+           maxElementsInMemory="100"
+           overflowToDisk="false"
+           timeToLiveSeconds="300"> <!-- 5 minutos -->
+    </cache>
+    <cache name="horaCache"
+           maxElementsInMemory="100"
+           overflowToDisk="false"
+           timeToLiveSeconds="300"> <!-- 5 minutos -->
+    </cache>
+</ehcache>

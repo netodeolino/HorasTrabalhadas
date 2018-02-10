@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,16 +48,19 @@ public class UsuarioController {
 		return "sucesso";
 	}
 	
+	@Cacheable("usuariosCache")
 	@GetMapping(path="/listar")
 	public List<Usuario> listar(){
 		return usuarioService.listar();
 	}
 	
+	@Cacheable("usuarioCache")
 	@GetMapping(path="/buscar")
 	public Usuario buscar(Long id) {
 		return usuarioService.buscar(id);
 	}
 	
+	@CachePut("usuarioCache")
 	@PutMapping(path="/atualizar")
 	public String atualizar(@RequestBody Usuario usuario) {
 		usuarioService.salvar(usuario);

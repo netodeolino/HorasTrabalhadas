@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,16 +41,19 @@ public class HoraController {
 		return "sucesso";
 	}
 	
+	@Cacheable("horasCache")
 	@GetMapping(path="/listar")
 	public List<Hora> listar(){
 		return horaService.listar();
 	}
 	
+	@Cacheable("horaCache")
 	@GetMapping(path="/buscar")
 	public Hora buscar(Long id) {
 		return horaService.buscar(id);
 	}
 	
+	@CachePut("horaCache")
 	@PutMapping(path="/atualizar")
 	public String atualizar(@RequestBody Hora usuario) {
 		horaService.salvar(usuario);
